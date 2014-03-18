@@ -7,7 +7,7 @@
 	 * bdGoogleMapsEmbedApi::$API_KEY = 'your apikey'
 	 * 
 	 * @author Barry Dam 2014
-	 * @version 1.0 
+	 * @version 1.0.1 
 	 */
 	class bdGoogleMapsEmbedApi {
 		/**
@@ -261,9 +261,16 @@
 				if (! empty($arrResult['results'][0]['formatted_address']))	return $arrResult['results'][0]['formatted_address'];			
 			}
 
-		
-		
-
+			private static function getLatLngFromAddress($getAddress = false)
+			{
+				if (! $getAddress) return false ;
+				$strUrl 	= 'http://maps.googleapis.com/maps/api/geocode/json?address='. preg_replace('/\s+/', ',', $getAddress) .'&sensor=true';
+				$strResult 	=  file_get_contents($strUrl);
+				if (! $strResult) return $getLat.','.$getLng;
+				$arrResult	= json_decode($strResult, true);
+				if (! empty($arrResult['results'][0]['geometry']['location']))	return $arrResult['results'][0]['geometry']['location']['lat'].','.$arrResult['results'][0]['geometry']['location']['lng'];			
+				
+			}
 		/**
 		 * Static methods
 		 */
@@ -287,6 +294,19 @@
 			return $obj;
 		}
 
-		
-	}
+		public static function createByAddress($getAddress = false, $getMode = 'place') 
+		{
+			if (! $getAddress) return false;
+			if (! in_array($getMode, array('place', 'view')))
+				throw new Exception('Param $getMode can only be place or view');
+			$arrOptions = array();
+			if ($getMode == 'place')
+				$arrOptions['q'] = $getAddress;
+			// both needed for place and view 
+			$arrOptions['center'] = self::getLatLngFromAddress($getAddress);
+			$obj = new bdGoogleMapsEmbedApi($getMode, $arrOptions);
+			$obj->setOption('zoom', 15);
+			return $obj;
+		}
+	};
 ?>
