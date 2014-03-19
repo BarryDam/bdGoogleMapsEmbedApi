@@ -7,7 +7,7 @@
 	 * bdGoogleMapsEmbedApi::$API_KEY = 'your apikey'
 	 * 
 	 * @author Barry Dam 2014
-	 * @version 1.0.1 
+	 * @version 1.0.2 
 	 */
 	class bdGoogleMapsEmbedApi {
 		/**
@@ -137,7 +137,7 @@
 									is_numeric($lng)
 								) $this->arrApiParamsRequired['center'] = $lat.','.$lng;
 							} 
-						} else {
+						}  else if ($this->arrSettings['mode'] !== 'place') {
 							$this->arrApiParamsRequired['center'] = preg_replace('/\s+/', '+', $getValue); 
 						}
 						break;
