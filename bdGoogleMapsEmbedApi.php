@@ -258,7 +258,10 @@
 				$strResult 	=  file_get_contents($strUrl);
 				if (! $strResult) return $getLat.','.$getLng;
 				$arrResult	= json_decode($strResult, true);
-				if (! empty($arrResult['results'][0]['formatted_address']))	return $arrResult['results'][0]['formatted_address'];			
+				if (empty($arrResult['results'][0]['formatted_address']))
+					return $getLat.','.$getLng;
+				else
+					return $arrResult['results'][0]['formatted_address'];
 			}
 
 			private static function getLatLngFromAddress($getAddress = false)
@@ -268,8 +271,10 @@
 				$strResult 	=  file_get_contents($strUrl);
 				if (! $strResult) return $getLat.','.$getLng;
 				$arrResult	= json_decode($strResult, true);
-				if (! empty($arrResult['results'][0]['geometry']['location']))	return $arrResult['results'][0]['geometry']['location']['lat'].','.$arrResult['results'][0]['geometry']['location']['lng'];			
-				
+				if (empty($arrResult['results'][0]['geometry']['location']))
+					return $getLat.','.$getLng;
+				else 
+					return $arrResult['results'][0]['geometry']['location']['lat'].','.$arrResult['results'][0]['geometry']['location']['lng'];					
 			}
 		/**
 		 * Static methods
