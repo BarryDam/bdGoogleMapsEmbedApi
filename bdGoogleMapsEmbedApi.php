@@ -83,7 +83,7 @@
 			 */
 			public function setHeight($getIntHeight = false) {
 				$getIntHeight = str_ireplace('px', '', $getIntHeight);
-				if (is_numeric($getIntHeight)) $this->arrSettings['height'] = $getIntHeight;
+				$this->arrSettings['height'] = $getIntHeight;
 			}
 			/**
 			 * The width of the iframe 
@@ -232,8 +232,8 @@
 				return '
 					<div class="bdGoogleMapsEmbedApi" style="height:'.$strDivHeight.';width:'.$strDivWith.';">
 						<iframe
-						  width="'.$this->arrSettings['width'].'"
-						  height="'.$this->arrSettings['height'].'"
+						  width="100%"
+						  height="100%"
 						  frameborder="0" style="border:0"
 						  src="'.$strUrl.'">
 						</iframe>
