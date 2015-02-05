@@ -251,7 +251,7 @@
 		*/
 		
 
-			private static function getAddressFromLatLng($getLat = false, $getLng = false)
+			public static function getAddressFromLatLng($getLat = false, $getLng = false)
 			{
 				if (! $getLat || ! $getLng) return false;
 				$strUrl 	= 'http://maps.googleapis.com/maps/api/geocode/json?latlng='.$getLat.','.$getLng.'&sensor=true';
@@ -264,7 +264,7 @@
 					return $arrResult['results'][0]['formatted_address'];
 			}
 
-			private static function getLatLngFromAddress($getAddress = false)
+			public static function getLatLngFromAddress($getAddress = false)
 			{
 				if (! $getAddress) return false ;
 				$strUrl 	= 'http://maps.googleapis.com/maps/api/geocode/json?address='. preg_replace('/\s+/', ',', $getAddress) .'&sensor=true';
